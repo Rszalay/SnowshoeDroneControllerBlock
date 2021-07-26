@@ -25,7 +25,7 @@ namespace Snowshoe_Drone_Controller_Block.Controls
         double _ki = 0;
         double acc = 0;
 
-        public Integral(float ki)
+        public Integral(double ki)
         {
             _ki = ki;
         }

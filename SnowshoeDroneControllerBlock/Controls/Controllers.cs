@@ -13,7 +13,7 @@ namespace Snowshoe_Drone_Controller_Block.Controls
 
     class Ideal : ControllerBase
     {
-        public Ideal(float kp, float ki, float kd)
+        public Ideal(double kp, double ki, double kd)
         {
             controllers.Add(new Proportional(kp));
             controllers.Add(new Integral(ki));
