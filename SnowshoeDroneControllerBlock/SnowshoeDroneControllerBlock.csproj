@@ -102,6 +102,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\APIBackend.cs" />
+    <Compile Include="Communications\CommunicationsSystem.cs" />
+    <Compile Include="Communications\Communicator.cs" />
+    <Compile Include="Communications\Message.cs" />
     <Compile Include="Controls\ControllerBase.cs" />
     <Compile Include="Controls\Controllers.cs" />
     <Compile Include="Controls\ControlSystems.cs" />
@@ -110,14 +114,11 @@
     <Compile Include="Controls\Trackers.cs" />
     <Compile Include="Drivers\GyroDriver.cs" />
     <Compile Include="Drivers\ThrustDriver.cs" />
+    <Compile Include="Modes\Fine.cs" />
     <Compile Include="Session\DroneControlSession.cs" />
     <Compile Include="DroneController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="API\" />
-    <Folder Include="Communications\" />
-    <Folder Include="Modes\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
