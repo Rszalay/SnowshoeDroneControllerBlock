@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Snowshoe_Drone_Controller_Block.DroneComponents;
 
 namespace Snowshoe_Drone_Controller_Block.Controls
 {
@@ -13,11 +14,11 @@ namespace Snowshoe_Drone_Controller_Block.Controls
 
     class Ideal : ControllerBase
     {
-        public Ideal(double kp, double ki, double kd)
+        public Ideal(IdealSettings settings)
         {
-            controllers.Add(new Proportional(kp));
-            controllers.Add(new Integral(ki));
-            controllers.Add(new Derivative(kd));
+            controllers.Add(new Proportional(settings.Kp));
+            controllers.Add(new Integral(settings.Ki));
+            controllers.Add(new Derivative(settings.Kd));
         }
 
         public override double Run(double error)

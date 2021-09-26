@@ -15,7 +15,7 @@ using VRageMath;
 using IMyTerminalBlock = Sandbox.ModAPI.IMyTerminalBlock;
 
 namespace Snowshoe_Drone_Controller_Block.API
-{
+{/*
     internal class APIBackend
     {
         private readonly DroneControlSession _session;
@@ -26,12 +26,16 @@ namespace Snowshoe_Drone_Controller_Block.API
         {
             PbApiMethods = new Dictionary<string, Delegate>
             {
-                ["GetCoreWeapons"] = new Action<ICollection<MyDefinitionId>>(GetCoreWeapons),
+                ["GetDronePosition"] = new Func<Vector3D>(GetDronePosition),
             };
-            var pb = MyAPIGateway.TerminalControls.CreateProperty<Dictionary<string, Delegate>, IMyTerminalBlock>("WcPbAPI");
+            var pb = MyAPIGateway.TerminalControls.CreateProperty<Dictionary<string, Delegate>, IMyTerminalBlock>("dcPbApi");
             pb.Getter = (b) => PbApiMethods;
             MyAPIGateway.TerminalControls.AddControl<Sandbox.ModAPI.Ingame.IMyProgrammableBlock>(pb);
         }
 
-    }
+        private Vector3D GetDronePosition()
+        {
+
+        }
+    }*/
 }

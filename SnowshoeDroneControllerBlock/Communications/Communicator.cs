@@ -36,7 +36,7 @@ namespace Snowshoe_Drone_Controller_Block.Communications
             //broadcaster = antenna.Components.Get<MyDataBroadcaster>();
         }
 
-        public void Send(Message message)
+        private void Send(Message message)
         {
             
         }

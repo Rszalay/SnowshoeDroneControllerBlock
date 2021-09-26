@@ -16,6 +16,8 @@ using VRage.Game;
 using VRage.Game.Entity;
 using VRage.Utils;
 using VRageMath;
+using Snowshoe_Drone_Controller_Block.DroneComponents;
+using Snowshoe_Drone_Controller_Block.API;
 
 namespace Snowshoe_Drone_Controller_Block
 {
@@ -23,7 +25,9 @@ namespace Snowshoe_Drone_Controller_Block
     public class DroneController : MyGameLogicComponent
     {
         List<string> EchoStrings = new List<string>();
-        private IMyRemoteControl Block;
+        public IMyRemoteControl Block;
+        Drone drone;
+        Settings settings;
 
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
@@ -37,8 +41,9 @@ namespace Snowshoe_Drone_Controller_Block
                 return;
 
             DroneControlSession.Instance?.DroneControllers.Add(Block.EntityId, new DroneController());
-
+            settings = new Settings();
             Block.AppendingCustomInfo += AppendCustomInfo;
+            drone = new Drone(this, settings, DroneControlSession.wcApi );
         }
 
         public override void Close() // called when block is removed for whatever reason (including ship despawn)
@@ -50,18 +55,25 @@ namespace Snowshoe_Drone_Controller_Block
         public override void UpdateBeforeSimulation()
         {
             Echo("my ID is : " + Block.EntityId.ToString());
+            drone.Purge();
             Block.RefreshCustomInfo();
+        }
+
+        public override void OnAddedToScene()
+        {
         }
 
         private void AppendCustomInfo(IMyTerminalBlock block, StringBuilder text)
         {
+            text.Clear();
             if (block == null) return;
             text.AppendLine("* * * * * * * * * * * * *");
             foreach (var line in EchoStrings) text.AppendLine(line);
             EchoStrings.Clear();
+            EchoStrings = new List<string>();
         }
 
-        private void Echo(string echoString)
+        public void Echo(string echoString)
         {
             EchoStrings.Add(echoString);
         }

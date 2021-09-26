@@ -19,6 +19,7 @@ using VRage.Utils;
 using VRageMath;
 using ProtoBuf;
 using Snowshoe_Drone_Controller_Block.Controls;
+using Snowshoe_Drone_Controller_Block.DroneComponents;
 
 namespace Snowshoe_Drone_Controller_Block.Drivers
 {
@@ -30,25 +31,27 @@ namespace Snowshoe_Drone_Controller_Block.Drivers
         Vector3D _tangentVector;
         Vector3D _normalVector;
 
-        public GyroDriver(List<IMyTerminalBlock> terminalBlocks, DroneController thisController, double kp, double ki, double kd)
+        public GyroDriver(List<IMyCubeBlock> cubeBlocks, DroneController thisController, Settings settings)
         {
             ThisController = thisController;
-            Yaw = new Ideal(kp, ki, kd);
-            Pitch = new Ideal(kp, ki, kd);
-            Roll = new Ideal(kp, ki, kd);
-            foreach (IMyTerminalBlock block in terminalBlocks)
+            Yaw = new Ideal(settings.Thrust);
+            Pitch = new Ideal(settings.Pitch);
+            Roll = new Ideal(settings.Roll);
+            Purge(cubeBlocks);
+        }
+
+        public void Purge(List<IMyCubeBlock> cubeBlocks)
+        {
+            foreach (IMyTerminalBlock block in cubeBlocks)
             {
                 if (block is IMyGyro)
                 {
-                    if (block.IsSameConstructAs(ThisController as IMyTerminalBlock))
+                    if (!gyroSets.ContainsKey(block.Orientation))
                     {
-                        if (!gyroSets.ContainsKey(block.Orientation))
-                        {
-                            gyroSets.Add(block.Orientation, new List<IMyGyro>());
-                            gyroSets[block.Orientation].Add(block as IMyGyro);
-                        }
-                        else { gyroSets[block.Orientation].Add(block as IMyGyro); }
+                        gyroSets.Add(block.Orientation, new List<IMyGyro>());
+                        gyroSets[block.Orientation].Add(block as IMyGyro);
                     }
+                    else { gyroSets[block.Orientation].Add(block as IMyGyro); }
                 }
             }
         }

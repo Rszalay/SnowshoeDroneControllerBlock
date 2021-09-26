@@ -19,6 +19,7 @@ using VRage.Utils;
 using VRageMath;
 using ProtoBuf;
 using Snowshoe_Drone_Controller_Block.Controls;
+using Snowshoe_Drone_Controller_Block.DroneComponents;
 
 namespace Snowshoe_Drone_Controller_Block.Drivers
 {
@@ -35,28 +36,31 @@ namespace Snowshoe_Drone_Controller_Block.Drivers
         double speedSp;
         int ticksSinceLastRun = 0;
 
-        public ThrustDriver(List<IMyTerminalBlock> blocks, DroneController thisController, double kp, double ki, double kd)
+        public ThrustDriver(List<IMyCubeBlock> blocks, DroneController thisController, Settings settings)
         {
-            ConX = new Ideal(kp, ki, kd);
-            ConY = new Ideal(kp, ki, kd);
-            ConZ = new Ideal(kp, ki, kd);
+            ConX = new Ideal(settings.Thrust);
+            ConY = new Ideal(settings.Thrust);
+            ConZ = new Ideal(settings.Thrust);
             ThisController = thisController;
             thrusterSet = new Dictionary<Base6Directions.Direction, List<IMyThrust>>();
+            Purge(blocks);
+        }
+
+        public void Purge(List<IMyCubeBlock> blocks)
+        {
             foreach (IMyTerminalBlock block in blocks)
             {
                 if (block is IMyThrust)
                 {
-                    if (block.IsSameConstructAs(ThisController as IMyTerminalBlock))
+                    if (!thrusterSet.ContainsKey(block.Orientation.Forward))
                     {
-                        if (!thrusterSet.ContainsKey(block.Orientation.Forward))
-                        {
-                            thrusterSet.Add(block.Orientation.Forward, new List<IMyThrust>());
-                            thrusterSet[block.Orientation.Forward].Add(block as IMyThrust);
-                        }
-                        else { thrusterSet[block.Orientation.Forward].Add(block as IMyThrust); }
+                        thrusterSet.Add(block.Orientation.Forward, new List<IMyThrust>());
+                        thrusterSet[block.Orientation.Forward].Add(block as IMyThrust);
                     }
+                    else { thrusterSet[block.Orientation.Forward].Add(block as IMyThrust); }
                 }
             }
+            ThisController.Echo(thrusterSet.Count.ToString());
         }
 
         public void Load(Vector3D sp, Vector3D pv, double speed)
