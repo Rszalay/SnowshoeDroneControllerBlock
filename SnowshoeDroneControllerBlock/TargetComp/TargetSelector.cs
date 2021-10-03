@@ -28,22 +28,24 @@ namespace Snowshoe_Drone_Controller_Block.TargetComp
     {
         List<MyDetectedEntityInfo> DetectedEntities = new List<MyDetectedEntityInfo>();
         List<MyDetectedEntityInfo> ValidTargets = new List<MyDetectedEntityInfo>();
-        WcApi wcApi;
+        DroneController droneController;
 
 
-        public TargetSelector(WcApi api)
+        public TargetSelector(DroneController controller)
         {
-            wcApi = api;
+            droneController = controller;
         }
 
-        public IMyEntity SimpleSelect(Dictionary<IMyEntity, float> detectedEntities)
+        public IMyEntity SimpleSelect(Dictionary<IMyEntity, float> detectedEntities, ref List<IMyEntity> validTargets)
         {
-            List<IMyEntity> validTargets = new List<IMyEntity>();
+            validTargets.Clear();
             foreach(var candidate in detectedEntities)
             {
-               //if()
+                long blockOwner = droneController.Block.OwnerId;
+                long targetOwner = (candidate.Key as IMyCubeGrid).BigOwners.First();
+                if (MyIDModule.GetRelationPlayerPlayer(blockOwner, targetOwner) == MyRelationsBetweenPlayers.Enemies) validTargets.Add(candidate.Key);
             }
-            if (detectedEntities.Count > 0) return detectedEntities.First().Key;
+            if (detectedEntities.Count > 0) return validTargets.First();
             else return null;
         }
     }

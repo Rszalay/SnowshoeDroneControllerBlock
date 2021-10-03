@@ -41,9 +41,11 @@ namespace Snowshoe_Drone_Controller_Block
                 return;
 
             DroneControlSession.Instance?.DroneControllers.Add(Block.EntityId, new DroneController());
-            settings = new Settings();
+
             Block.AppendingCustomInfo += AppendCustomInfo;
-            drone = new Drone(this, settings, DroneControlSession.wcApi );
+
+            settings = new Settings();
+            drone = new Drone(this, settings);
         }
 
         public override void Close() // called when block is removed for whatever reason (including ship despawn)

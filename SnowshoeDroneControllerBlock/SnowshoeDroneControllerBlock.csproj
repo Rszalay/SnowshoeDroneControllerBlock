@@ -111,6 +111,9 @@
     <Compile Include="Controls\ControlSystems.cs" />
     <Compile Include="Controls\FeedBack.cs" />
     <Compile Include="Controls\Operators.cs" />
+    <Compile Include="DroneComponents\WeaponSet.cs" />
+    <Compile Include="Session\WorldAssets\ModAssets.cs" />
+    <Compile Include="Session\WorldAssets\WorldWeapons.cs" />
     <Compile Include="TargetComp\TargetSelector.cs" />
     <Compile Include="TargetComp\Trackers.cs" />
     <Compile Include="Drivers\GyroDriver.cs" />
@@ -121,7 +124,7 @@
     <Compile Include="Modes\Fine.cs" />
     <Compile Include="Modes\PointingTest.cs" />
     <Compile Include="Session\DroneControlSession.cs" />
-    <Compile Include="DroneController.cs" />
+    <Compile Include="Session\DroneController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="API\WeaponCoreApi.cs" />
   </ItemGroup>

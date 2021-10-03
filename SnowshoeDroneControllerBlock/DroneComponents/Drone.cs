@@ -28,19 +28,21 @@ namespace Snowshoe_Drone_Controller_Block.DroneComponents
         public List<IMyCubeBlock> AllBlocks = new List<IMyCubeBlock>();
         DroneController thisDroneController;
         Settings settings;
-        WcApi wcApi;
+        public WeaponSet Weapons;
+        public MyCubeGrid Grid;
         
 
-        public Drone(DroneController droneController, Settings droneSettings, WcApi api)
+        public Drone(DroneController droneController, Settings droneSettings)
         {
-            wcApi = api;
             thisDroneController = droneController;
             settings = droneSettings;
+            Weapons = new WeaponSet(thisDroneController);
             Purge();
             myGyroDriver = new GyroDriver(AllBlocks, thisDroneController, settings);
             myThrustDriver = new ThrustDriver(AllBlocks, thisDroneController, settings);
             myGyroDriver.Purge(AllBlocks);
             myThrustDriver.Purge(AllBlocks);
+            Grid = thisDroneController.Block.CubeGrid;
         }
 
         public void Purge()
@@ -54,6 +56,7 @@ namespace Snowshoe_Drone_Controller_Block.DroneComponents
             temp.Clear();
             myGyroDriver?.Purge(AllBlocks);
             myThrustDriver?.Purge(AllBlocks);
+            Weapons.Purge(AllBlocks);
         }
 
         //<----Basic Control Section---->//

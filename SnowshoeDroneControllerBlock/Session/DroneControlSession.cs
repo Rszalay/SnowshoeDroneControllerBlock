@@ -17,6 +17,8 @@ using VRage.Game.Entity;
 using VRage.Utils;
 using VRageMath;
 using Snowshoe_Drone_Controller_Block.API;
+using Snowshoe_Drone_Controller_Block.Session;
+using Snowshoe_Drone_Controller_Block.Session.WorldAssets;
 
 
 namespace Snowshoe_Drone_Controller_Block
@@ -27,6 +29,8 @@ namespace Snowshoe_Drone_Controller_Block
         public static DroneControlSession Instance; // NOTE: this is the only acceptable static if you nullify it afterwards.
         public static WcApi wcApi { get; private set; }
         //public static ShieldApi SH_api { get; private set; }
+
+        public static ModAssets Assets;
 
         public Dictionary<long,DroneController> DroneControllers = new Dictionary<long, DroneController>();
 
@@ -42,6 +46,7 @@ namespace Snowshoe_Drone_Controller_Block
             {
                 wcApi.Load();
             }
+            Assets.LoadAssets();
         }
 
         protected override void UnloadData()
